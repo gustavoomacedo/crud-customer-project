@@ -1,0 +1,185 @@
+<div class="container main-container">
+    <h4>Cadastro de clientes</h4>
+    <hr />
+    <form novalidate (ngSubmit)="adicionarCliente()" [formGroup]="cadastroForm">
+        <div class="form-horizontal">
+            <input class="form-control" id="customerId" type="hidden" formControlName="customerId" />
+
+            <div class="container form-row row mb-4">
+                <label class="col-md-2 control-label" for="name">Nome Completo</label>
+                <div class="col-md-4">
+                    <input
+                        class="form-control"
+                        id="name"
+                        type="text"
+                        placeholder="Nome (requerido)"
+                        formControlName="name"
+                        [ngClass]="{ 'is-invalid': displayMessage.name }"
+                    />
+                    <span class="text-danger" *ngIf="displayMessage.name">
+                        <p [innerHTML]="displayMessage.name"></p>
+                    </span>
+                </div>
+                
+                <label class="col-md-2 control-label">E-mail</label>
+                <div class="col-md-4">
+                    <input
+                        class="form-control"
+                        id="email"
+                        type="text"
+                        placeholder="E-mail (requerido)"
+                        formControlName="email"
+                        [ngClass]="{ 'is-invalid': displayMessage.email }"
+                    />
+                    <span class="text-danger" *ngIf="displayMessage.email">
+                        <p [innerHTML]="displayMessage.email"></p>
+                    </span>
+                </div>
+            </div>
+            
+            <div class="container form-row row mb-4">
+                <label class="col-md-2 control-label">Telefone</label>
+                <div class="col-md-4">
+                    <input
+                        class="form-control"
+                        id="phone"
+                        type="text"
+                        placeholder="Telefone (requerido)"
+                        formControlName="phone"
+                        [textMask]="{mask: MASKS.telefone.textMaskFunction}"
+                        [ngClass]="{ 'is-invalid': displayMessage.phone }"
+                    />
+                    <span class="text-danger" *ngIf="displayMessage.phone">
+                        <p [innerHTML]="displayMessage.phone"></p>
+                    </span>
+                </div>
+                
+                <label class="col-md-2 control-label">Data de nascimento</label>
+                <div class="col-md-4">
+                    <input
+                        class="form-control"
+                        id="birthDate"
+                        type="date"
+                        placeholder="Data de nascimento"
+                        formControlName="birthDate"
+                        [ngClass]="{ 'is-invalid': displayMessage.birthDate }"
+                    />
+                    <span class="text-danger" *ngIf="displayMessage.birthDate">
+                        <p [innerHTML]="displayMessage.birthDate"></p>
+                    </span>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="col-md-4 col-md-offset-2">
+                    <span>
+                        <button
+                            class="btn btn-primary"
+                            id="btnEndereco"
+                            (click)="adicionarEndereco()"
+                        >
+                        Adicionar novo Endereço
+                        </button>
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-horizontal" formArrayName="addressList" *ngFor="let t of addressList.controls; let i = index">
+                <div class="form-group" [formGroupName]="i">
+                    <input formControlName='id' id="{{'id'+i}}" type="hidden">
+                    <input formControlName='customerId' id="{{'customerId'+i}}" type="hidden">
+
+                    <label class="col-md-2 control-label">Endereço: {{i+1}}</label>
+                    
+                    <div class="container form-row row mb-4">
+                        <div class="col-md-2">
+                            <input formControlName='postalCode' id="{{'postalCode'+i}}" type="text" class="form-control"
+                                    placeholder="CEP:" postalCode [textMask]="{mask: MASKS.cep.textMask}">
+                            <span class="text-danger" 
+                                    *ngIf="addressList.controls[i].get('postalCode').hasError('required') && 
+                                    addressList.controls[i].get('postalCode').touched">
+                                        <p>The PostalCode is Required</p>
+                            </span>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <input formControlName='street' id="{{'street' + i}}" type="text" class="form-control"
+                            placeholder="RUA/AVENIDA: " />
+                            <span class="text-danger" 
+                                    *ngIf="addressList.controls[i].get('street').hasError('required') && 
+                                    addressList.controls[i].get('street').touched">
+                                        <p>The Street is Required"</p>
+                            </span>
+                        </div>
+                        
+                        <div class="col-md-2">
+                            <input formControlName='streetNumber' id="{{'streetNumber' + i}}" type="text" class="form-control"
+                            placeholder="Numero: " />
+                            <span class="text-danger" 
+                                    *ngIf="addressList.controls[i].get('streetNumber').hasError('required') && 
+                                    addressList.controls[i].get('streetNumber').touched">
+                                        <p>The StreetNumber is Required"</p>
+                            </span>
+                        </div>
+
+                        <div class="col-md-2">
+                            <input formControlName='complementaryAddress' id="{{'complementaryAddress' + i}}" type="text" class="form-control"
+                            placeholder="Complemento: " />
+                            <span class="text-danger" 
+                                    *ngIf="addressList.controls[i].get('complementaryAddress').hasError('required') && 
+                                    addressList.controls[i].get('complementaryAddress').touched">
+                                        <p>The ComplementaryAddress is Required"</p>
+                            </span>
+                        </div>     
+                    </div>
+
+                    <div class="container form-row row mb-4">
+                        <div class="col-md-6">
+                                <input formControlName='city' id="{{'city' + i}}" type="text" class="form-control"
+                                placeholder="Cidade: " />
+                                <span class="text-danger" 
+                                        *ngIf="addressList.controls[i].get('city').hasError('required') && 
+                                        addressList.controls[i].get('city').touched">
+                                            <p>The City is Required"</p>
+                                </span>
+                        </div>      
+
+                        <div class="col-md-6">
+                                <input formControlName='state' id="{{'state' + i}}" type="text" class="form-control"
+                                placeholder="Estado: " />
+                                <span class="text-danger" 
+                                        *ngIf="addressList.controls[i].get('state').hasError('required') && 
+                                        addressList.controls[i].get('state').touched">
+                                            <p>The State is Required"</p>
+                                </span>
+                        </div>    
+                    </div>                          
+                </div>
+            </div>            
+            
+            <div class="form-group">
+                <div class="col-md-4 col-md-offset-2">
+                    <span>
+                        <button
+                            class="btn btn-success"
+                            id="Registrar"
+                            type="submit"
+                            [disabled]="!cadastroForm.valid"
+                        >
+                            Registrar
+                        </button>
+                    </span>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="col-md-4 col-md-offset-2">
+                    <p>Formulário válido: {{ cadastroForm.valid }}</p>
+                    <p>Formulário Tocado: {{ cadastroForm.touched }}</p>
+                    <p>Formulário Sujo: {{ cadastroForm.dirty }}</p>
+                    <p>Formulário: {{ formResult }}</p>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,9 @@
+CustomerProject/.vs/
+CustomerProject/src/CustomerProject.Api/bin/
+CustomerProject/src/CustomerProject.Api/obj/
+CustomerProject/src/CustomerProject.Application/bin/
+CustomerProject/src/CustomerProject.Application/obj/
+CustomerProject/src/CustomerProject.Domain/obj/
+CustomerProject/src/CustomerProject.Infra/bin/
+CustomerProject/src/CustomerProject.Infra/obj/
+CustomerProject/src/CustomerProject.Domain/bin/
